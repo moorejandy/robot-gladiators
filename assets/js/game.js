@@ -1,3 +1,9 @@
+  //Random Number function
+  var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
+  };
+
 var fightOrSkip = function() {
   // ask player if they'd like to fight or skip using fightOrSkip function
   var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
@@ -7,8 +13,11 @@ var fightOrSkip = function() {
     window.alert("You need to provide a valid answer! Please try again.");
     return fightOrSkip();
   }
-  // if player picks "skip" confirm and then stop the loop
+ 
+  //convert promptFight tolowercase
   promptFight = promptFight.toLowerCase();
+
+   // if player picks "skip" confirm and then stop the loop
   if (promptFight === "skip") {
     // confirm player wants to skip
     var confirmSkip = window.confirm("Are you sure you'd like to quit?");
@@ -17,12 +26,12 @@ var fightOrSkip = function() {
     if (confirmSkip) {
       window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
       // subtract money from playerMoney for skipping
-      playerInfo.playerMoney = Math.max(0, playerInfo.money - 10);
+      playerInfo.Money = Math.max(0, playerInfo.money - 10);
       return true;
     }
   }
   return false;
-}
+};
 
 var fight = function(enemy) {
   //Keep track of who attacks first
@@ -32,14 +41,16 @@ var fight = function(enemy) {
   }
 
     while (playerInfo.health > 0 && enemy.health > 0) {
-      // ask player if they'd like to fight or run
       if (isPlayerTurn){
+        // ask player if they'd like to fight or run
         if (fightOrSkip()) {
           break;
         }
   
-      // remove enemy's health by subtracting the amount set in the playerInfo.attack variable
+     
       var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+
+       // remove enemy's health by subtracting the amount set in the playerInfo.attack variable
       enemy.health = Math.max(0, enemy.health - damage);
       console.log(
         playerInfo.name + ' attacked ' + enemy.name + '. ' + enemy.name + ' now has ' + enemy.health + ' health remaining.'
@@ -57,6 +68,7 @@ var fight = function(enemy) {
       } else {
         window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
       }
+    } else {
   
       // remove players's health by subtracting the amount set in the enemyAttack variable
       var damage = randomNumber(enemy.attack - 3, enemy.attack);
@@ -78,11 +90,7 @@ var fight = function(enemy) {
    }
   };
    
-  //Random Number function
-  var randomNumber = function(min, max) {
-    var value = Math.floor(Math.random() * (max - min + 1) + min);
-    return value;
-  };
+
 
 //set name function
 
