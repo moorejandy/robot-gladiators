@@ -1,6 +1,6 @@
 var playerName = window.prompt("What is your robot's name?")
 var playerHealth = 100;
-var playerAttack = 30;
+var playerAttack = 15;
 var playerMoney = 10;
 
 // console.log(playerName, playerAttack, playerHealth);
@@ -24,14 +24,15 @@ var fight = function(enemyName) {
         if (confirmSkip) {
           window.alert(playerName + ' has decided to skip this fight. Goodbye!');
           // subtract money from playerMoney for skipping
-          playerMoney = playerMoney - 10;
+          playerMoney = Math.max(0, playerMoney - 10);
           console.log("playerMoney", playerMoney)
           break;
         }
       }
   
       // remove enemy's health by subtracting the amount set in the playerAttack variable
-      enemyHealth = enemyHealth - playerAttack;
+      var damage = randomNumber(playerAttack - 3, playerAttack);
+      enemyHealth = Math.max(0, enemyHealth - damage);
       console.log(
         playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
       );
@@ -50,7 +51,8 @@ var fight = function(enemyName) {
       }
   
       // remove players's health by subtracting the amount set in the enemyAttack variable
-      playerHealth = playerHealth - enemyAttack;
+      var damage = randomNumber(enemyAttack - 3, enemyAttack);
+      playerHealth = Math.max(0, playerHealth - damage);
       console.log(
         enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
       );
@@ -65,19 +67,26 @@ var fight = function(enemyName) {
       }
     }
   };
-     
+   
+  //Random Number function
+  var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
+  };
+
+
    
   var startGame = function() {
     for (var i = 0; i < enemyNames.length; i++) {
     if(playerHealth > 0 ) {
     //reset player stats
     playerHealth=100;
-    playerAttack=30;
+    playerAttack=15;
     playerMoney=10;
 
         window.alert("Welcome to Robot Galdiators! Round " + (i+1));
         var pickedEnemyName = enemyNames[i];
-        enemyHealth = 50;
+        enemyHealth = randomNumber(40, 60);
         // debugger;
         fight(pickedEnemyName);
         if (playerHealth > 0 && i < enemyNames.length -1) {
@@ -97,7 +106,7 @@ var fight = function(enemyName) {
   var endGame = function(){
     if(playerHealth > 0 )
     {
-      window.alert("Great job, you've won the battle! You now have a scoore of " + playerMoney + ".");
+      window.alert("Great job, you've won the battle! You now have a score of " + playerMoney + ".");
     } else{
       window.alert("You've lost your robot in battle");
     }
